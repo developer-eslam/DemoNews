@@ -1,5 +1,9 @@
 package com.project.newapp.news;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     NetworkController networkController;
     int i ;
+
     String url = "https://newsapi.org/v1/sources?language=en&apiKey=c6ba249db52c44518722fe4796b6ea1d";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +72,32 @@ public class MainActivity extends AppCompatActivity {
 
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-//
-                        String id = jsonObject.getString("id");
 
+                           String id = jsonObject.getString("id");
+
+//                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+//
+//                        //Now get Editor
+//                        SharedPreferences.Editor editor = sharedPref.edit();
+//
+//                        //Put your value
+//                        editor.putString("id", id);
+//
+//                        //Commits your edits
+//                        editor.commit();
+
+                        Intent intent = new Intent(MainActivity.this,DetailsActivity.class);
+                        intent.putExtra("id",id);
                           JSONObject urlsToLogos  = jsonObject.getJSONObject("urlsToLogos");
 
 
                             String small = urlsToLogos.getString("small");
                             model.sources sources = new sources(id,small);
+
+
                             sourcesList.add(sources);
 
+                                startActivity(intent);
 
 
                     }
